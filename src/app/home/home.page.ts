@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
 import { Producto } from '../model/producto';
+import { CartComponent } from '../components/cart/cart.component';
 
 
 @Component({
@@ -20,7 +21,5 @@ export class HomePage {
 
     this.productos = prodSrv.obtenerTodos();
    }
-    
-
 
 }

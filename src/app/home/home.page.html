@@ -3,10 +3,7 @@
     <ion-title>
       Lista de Productos
     </ion-title>
-    <ion-avatar id="cart_icon" slot="end">
-      <ion-badge color="danger" mode="ios">{{cantidad}}</ion-badge>
-      <img src="../../assets/icon/cart.png" />
-    </ion-avatar>
+    <app-cart slot='end'></app-cart>
   </ion-toolbar>
 </ion-header>
 
@@ -17,9 +14,9 @@
         <img [src]="item.img_url" />
       </ion-avatar>
       <ion-label>{{item.name}}</ion-label>
-     <ion-label color="danger">{{item.price}}</ion-label>
-      <ion-label *ngIf="item.cantidad==0" color='danger'>SIN STOCK</ion-label>
-      <ion-label *ngIf="item.cantidad>0" color='green'>CON STOCK</ion-label>
+      <ion-label color="primary">{{item.price.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}}</ion-label>
+      <ion-label *ngIf="item.stock==0" color='danger'>SIN STOCK</ion-label>
+      <ion-label *ngIf="item.stock>0" color='success'>CON STOCK</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
