@@ -1,4 +1,4 @@
-export class Producto {
+export class Product {
   public id: string;
   public name: string;
   public price: number;

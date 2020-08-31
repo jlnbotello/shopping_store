@@ -13,7 +13,7 @@ import { CartService } from '../services/cart.service';
 export class ProductoPage implements OnInit {
 
   private producto;
-  private curr_count = 0;
+  private cart_count = 0;
   
   constructor(private activeRoute: ActivatedRoute, private prodSrv: ProductoService, private cartSrv: CartService) { }
   
@@ -21,15 +21,16 @@ export class ProductoPage implements OnInit {
     this.activeRoute.paramMap.subscribe(paramMap => {
       this.producto = this.prodSrv.obtenerPorId(paramMap.get("id"));
       //alert(paramMap.get("id"));
+      this.cart_count = this.cartSrv.getQuantity();
     });
   }
   
-  agregarProducto() {
-    this.prodSrv.agregar(this.producto);
-  }
+  //agregarProducto() {
+    //this.prodSrv.agregar(this.producto);
+  //}
 
   on_add_button() {
-    this.cartSrv.add();
-    this.curr_count = this.cartSrv.getCount();
+    this.cartSrv.add(this.producto, 1);
+    this.cart_count = this.cartSrv.getQuantity();
    }
 }

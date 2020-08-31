@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>cart_list</ion-title>
+    <ion-title>Carrito ({{cart_count}})</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of cartList" [routerLink]="['/home',item.id]">
+      <ion-avatar slot="start">
+        <img [src]="item.product.img_url" />
+      </ion-avatar>
+      <ion-label>{{item.product.name}}</ion-label>
+      <ion-label color="primary">{{item.product.price.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

@@ -3,6 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
     path: 'home',
     children: [
       {
@@ -14,19 +19,14 @@ const routes: Routes = [
         loadChildren: () => import('./producto/producto.module').then(m => m.ProductoPageModule)
       }
     ]
-   },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
   },
   {
     path: 'producto',
-    loadChildren: () => import('./producto/producto.module').then( m => m.ProductoPageModule)
+    loadChildren: () => import('./producto/producto.module').then(m => m.ProductoPageModule)
   },
   {
     path: 'cart-list',
-    loadChildren: () => import('./cart-list/cart-list.module').then( m => m.CartListPageModule)
+    loadChildren: () => import('./cart-list/cart-list.module').then(m => m.CartListPageModule)
   },
 ];
 

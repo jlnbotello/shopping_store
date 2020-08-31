@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{producto.name}}</ion-title>
-    <app-cart slot='end' [count]="curr_count"></app-cart>
+    <app-cart slot='end' [count]="cart_count" [routerLink]="['/cart-list']"></app-cart>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>

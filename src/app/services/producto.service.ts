@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../model/producto';
+import { Product } from '../model/product';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class ProductoService {
     }
   ]
  */
-private productos:Array<Producto> = [
+private productos:Array<Product> = [
     { id: "1",
       name: "Celular 1",
       price: 1500,
@@ -64,7 +64,7 @@ private productos:Array<Producto> = [
     }
   }
 
-  public agregar(prod: Producto) {
+  public agregar(prod: Product) {
     this.productos.push(prod);
   }
 
