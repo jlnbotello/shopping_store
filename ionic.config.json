@@ -1,5 +1,7 @@
 {
   "name": "mySecApp",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

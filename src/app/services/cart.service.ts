@@ -1,49 +1,69 @@
 import { Injectable } from '@angular/core';
 import { CartProduct } from '../model/cart-product';
 import { Product } from '../model/product';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { debugOutputAstAsTypeScript } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CartService {
-  private cartList: Array<CartProduct> = [];
-
-  constructor() { }
-
+   
+  private path = "http://localhost:3001";
+  //Observable counter
+  private quantity_sbj = new BehaviorSubject<number>(0);
+  public readonly quantity:Observable<number> = this.quantity_sbj.asObservable();
+  // Observable list
+  private list_sbj : BehaviorSubject<Product[]> = new BehaviorSubject([]);
+  public readonly list: Observable<Product[]> = this.list_sbj.asObservable();
+  
+  constructor(private httpClient: HttpClient) { }
+  
   add(product: Product, quantity: number) {
-
-    const index = this.findIndex(product);
-    if (index == (-1)) { //not found
-      let cart_prod = new CartProduct(product, 1);
-      this.cartList.push(cart_prod);
-    } else { //update quantity
-      this.cartList[index].incQty(quantity);
+    if (quantity > 0) {     
+      //spread properties
+      let cartProduct = { ...product };
+      cartProduct.quantity = quantity;
+      this.httpClient.post(this.path + "/cart", cartProduct).subscribe(() => {
+        this.updateList();
+        this.updateQuantity();
+      })
     }
-  }
-  set(product: Product, quantity: number) {
-    const index = this.findIndex(product);
-    if (index >= 0)
-      this.cartList[index].setQty(quantity);
   }
 
   clear(product: Product) {
-    const index = this.findIndex(product);
-    if (index >= 0)
-      this.cartList[index].setQty(0);
+    this.httpClient.delete(this.path + "/cart/" + product.id).subscribe(() => {
+     
+   })
   }
 
-  private findIndex(product: Product): number {
-    return this.cartList.findIndex(i => i.product.id === product.id);
+  updateList() {
+    this.httpClient.get<Product[]>(this.path + "/cart").subscribe((list: Product[]) => {
+      this.list_sbj.next(list); // FIXME: inefficient!!!!
+    });
   }
 
-  getList() {
-    return this.cartList;
+  updateQuantity() {
+    this.httpClient.get<string>(this.path + "/cart/quantity").subscribe((qty: string) => {
+      this.quantity_sbj.next(parseInt(qty, 10));
+    });
   }
 
-  getQuantity() {
-    const accu_init = 0;
-    return this.cartList.reduce((accu, prod) => accu += prod.getQty() ,accu_init)
+  getProductQuantity(product: Product) {
+    return this.httpClient.get<string>(this.path + "/cart/" + product.id + "/quantity");
   }
 
+  buyCurrentCart() {
+    return this.httpClient.post(this.path + "/cart/buy", {}); //FIXME: zero?
+  }
+
+  public clearCart() {
+    this.list_sbj.next([]);
+    this.quantity_sbj.next(0);
+    this.httpClient.delete(this.path + "/cart").subscribe((res) => {
+      console.log(res);
+    });
+  }
 }

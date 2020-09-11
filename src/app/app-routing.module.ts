@@ -16,13 +16,13 @@ const routes: Routes = [
       },
       {
         path: ":id",
-        loadChildren: () => import('./producto/producto.module').then(m => m.ProductoPageModule)
+        loadChildren: () => import('./product/product.module').then(m => m.ProductPageModule)
       }
     ]
   },
   {
-    path: 'producto',
-    loadChildren: () => import('./producto/producto.module').then(m => m.ProductoPageModule)
+    path: 'product',
+    loadChildren: () => import('./product/product.module').then(m => m.ProductPageModule)
   },
   {
     path: 'cart-list',

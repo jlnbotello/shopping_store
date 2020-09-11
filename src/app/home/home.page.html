@@ -3,20 +3,20 @@
     <ion-title>
       Lista de Productos
     </ion-title>
-    <app-cart slot='end' [count]="cart_count" [routerLink]="['/cart-list']"></app-cart>
+    <app-cart slot='end' [count]="cartSrv.quantity | async" [routerLink]="['/cart-list']"></app-cart>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item *ngFor="let item of productos" [routerLink]="['/home',item.id]">
+    <ion-item *ngFor="let item of prodSrv.list | async" [routerLink]="['/home',item.id]">
       <ion-avatar slot="start">
         <img [src]="item.img_url" />
       </ion-avatar>
       <ion-label>{{item.name}}</ion-label>
-      <ion-label color="primary">{{item.price.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}}</ion-label>
-      <ion-label *ngIf="item.stock==0" color='danger'>SIN STOCK</ion-label>
-      <ion-label *ngIf="item.stock>0" color='success'>CON STOCK</ion-label>
+      <ion-label color="primary">{{item.price}}</ion-label>
+      <ion-label *ngIf="item.quantity==0" color='danger'>SIN STOCK</ion-label>
+      <ion-label *ngIf="item.quantity>0" color='success'>CON STOCK</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

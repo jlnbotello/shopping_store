@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Carrito ({{cart_count}})</ion-title>
+    <ion-title>Carrito ({{cartSrv.quantity | async}})</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -9,14 +9,17 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of cartList" [routerLink]="['/home',item.id]">
+    <ion-item *ngFor="let item of cartSrv.list | async" [routerLink]="['/home',item.id]">
       <ion-avatar slot="start">
-        <img [src]="item.product.img_url" />
+        <img [src]="item.img_url" />
       </ion-avatar>
-      <ion-label>{{item.product.name}}</ion-label>
-      <ion-label color="primary">{{item.product.price.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}}
-      </ion-label>
+      <ion-label>{{item.name}}</ion-label>
+      <ion-label color="primary">{{item.price}}</ion-label>
+      <ion-label>{{item.quantity}}</ion-label>
     </ion-item>
   </ion-list>
 
+  <ion-button [disabled]="(cartSrv.quantity | async)==0" expand="block" (click)="on_buy_button()">
+    comprar <ion-icon name="happy-outline"></ion-icon>
+  </ion-button>
 </ion-content>

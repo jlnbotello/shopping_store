@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{product.name}}</ion-title>
+    <app-cart slot='end' [count]="cartSrv.quantity | async" [routerLink]="['/cart-list']"></app-cart>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-img class="img_size" [src]="product.img_url"></ion-img>
+  </div>
+  <ion-item>
+    <ion-text class="ion-text-center" color="primary">
+      <h1>${{product.price}}</h1>
+    </ion-text>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="success">{{product.quantity}} disponibles</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-icon color="secondary" name="card"></ion-icon>
+    <ion-text color="secondary">
+      <h6>Paga en 3 cuotas sin interes</h6>
+    </ion-text>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Cantidad: </ion-label>
+    <ion-input class="colorFondo" type="number" [(ngModel)]="qty_input" max={{product.quantity}} min=1></ion-input>
+  </ion-item>
+
+  <ion-button [disabled]="product.quantity == 0" expand="block" (click)="on_add_button()">
+    <ion-icon slot="start" name="cart"></ion-icon> agregar al carrito
+  </ion-button>
+</ion-content>

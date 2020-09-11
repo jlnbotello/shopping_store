@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CartProduct } from '../model/cart-product';
+import { LoadingController } from '@ionic/angular';
+//import { ConsoleReporter } from 'jasmine';
+import { Product } from '../model/product';
 import { CartService } from '../services/cart.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -9,18 +12,20 @@ import { CartService } from '../services/cart.service';
 })
 export class CartListPage implements OnInit {
   
-  private cartList: Array<CartProduct>;
-  private cart_count=10;
-  
-  
-  constructor(private cartSrv: CartService) {
-    
+  constructor(private cartSrv: CartService, private prodSrv:ProductService, private loadCtrlr: LoadingController) {
   }
 
-  ngOnInit(){}
+  ngOnInit() {
 
-  ngAfterViewChecked(){ //FIXME
-    this.cartList = this.cartSrv.getList();
-    this.cart_count = this.cartSrv.getQuantity();
-  }  
+  }
+
+  on_buy_button() {
+    console.log("Buying transaction initiated");
+    this.cartSrv.buyCurrentCart().subscribe((response) => {
+      console.log(response);
+      this.prodSrv.updateList();
+      alert("Compra exitosa. Ya sabemos donde vive ;) \n Se vaciará el carrito");
+      this.cartSrv.clearCart();
+    })
+  }
 }
